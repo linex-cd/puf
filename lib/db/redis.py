@@ -17,6 +17,10 @@ class CRedis:
 
 	#enddef
 	
+	def dbsize(self):
+		return dbsize(self.conn);
+	#enddef
+
 	def set(self, key, value):
 		return set(self.conn, key, value);
 	#enddef
@@ -44,7 +48,10 @@ class CRedis:
 	def keys(self, pattern):
 		return keys(self.conn, pattern);
 	#enddef
-
+	
+	def scan(conn, cursor, pattern, count):
+		return scan(self.conn, cursor, pattern, count);
+	#enddef
 	def delete(self, key):
 		return delete(self.conn,key);
 	#enddef
@@ -92,6 +99,10 @@ def connect():
 	return redis.Redis(host = config.redis.host, port = config.redis.port, db = config.redis.db);
 #enddef
 
+def dbsize(conn):
+	return conn.dbsize();
+#enddef
+
 #string
 def set(conn, key, value):
 	return conn.set(key, value);
@@ -124,6 +135,10 @@ def get(conn, key):
 
 def keys(conn, pattern):
 	return conn.keys(pattern);
+#enddef
+
+def scan(conn, cursor, pattern, count):
+	return conn.scan(cursor, pattern, count);
 #enddef
 
 def delete(conn, key):

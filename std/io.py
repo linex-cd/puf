@@ -4,6 +4,8 @@ import std.file;
 
 import std.env;
 
+import sys;
+
 
 def scanln():
 	if std.env.python_version < (3, 0):
@@ -14,23 +16,30 @@ def scanln():
 	return scanline();
 #enddef
 
-def println(str):
+def println(text):
 	if std.env.python_version < (3, 0):
 		from std.print2 import printline;
 	else:
 		from std.print3 import printline;
 	#endif
-	printline(str);
+	printline(text);
 	pass;
 #enddef
 
-def print(str):
+def print(text):
 	if std.env.python_version < (3, 0):
 		from std.print2 import printstr;
 	else:
 		from std.print3 import printstr;
 	#endif
-	printstr(str);
+	printstr(text);
+	pass;
+#enddef
+
+def status(text):
+	sys.stdout.write(text);  
+	sys.stdout.write("\r");  
+	sys.stdout.flush();  
 	pass;
 #enddef
 

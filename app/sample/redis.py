@@ -16,6 +16,8 @@ def main():
 	l = r.keys("ab*");
 	std.io.println(l);
 	
+	l = r.scan(0, "ab*", 1);
+	std.io.println(l);
 #enddef
 
 

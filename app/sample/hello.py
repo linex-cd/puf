@@ -34,6 +34,12 @@ def main():
 	std.ex.switch(x, "b", fun_b, ("args 1 for b", "args 2 for b"));
 	
 	std.log.info("INPUT: " + x);
+	total=100000  
+	for i in range(0,total): 
+		percent=float(i)*100/float(total)
+		std.io.status("%.4f"%percent);
+	#endfor
+	
 	std.log.info("Bye!");
 #enddef
 

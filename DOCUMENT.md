@@ -8,16 +8,20 @@ python puf.py sample hello
 python puf.py sample login get_token
 
 ```
+### API LOOKUP
 
-- std
+#### std
+
 * env
 	* (major, minor) = python_version
 	* (major, minor) = puf_version
 
 * io
-	* null = print()
-    * null = println()
+	* null = print(text)
+    * null = println(text)
 	* string = scanln()
+	* null = print(text)
+	* null = status(text)
 
 * time
 	* string = get_time_str(timestamp = None)
@@ -46,7 +50,8 @@ python puf.py sample login get_token
 	* null = debug(text)
 	* null = warn(text)
 
-- lib
+#### lib
+
 * network
 	* http
 		* response = get(url, headers, cookies)
@@ -71,13 +76,15 @@ python puf.py sample login get_token
 	* redis
 		* C style
 			* conn = connect()
+			* int = dbsize(conn)
 			* bool = set(conn, key, value)
 			* bool = setnx(conn, key, value)
 			* bool = setex(conn, key, time, value)
 			* int = setrange(conn, key, start, value)
 			* int = getrange(conn, key, start, end)
 			* string = get(conn, key)
-			* list = keys(conn, pattern
+			* list = keys(conn, pattern)
+			* (cursor, list) = scan(conn, cursor, pattern, count)
 			* bool = delete(conn, key)
 			* int = incr(conn, key, default = 1)
 			* int = decr(conn, key, default = 1)
@@ -90,13 +97,15 @@ python puf.py sample login get_token
 			* string = lpop(conn, key)
 			
 		* Class style (class name: CRedis)
+			* int = .dbsize()
 			* bool = .set(key, value)
 			* bool = .setnx(key, value)
 			* bool = .setex(key, time, value)
 			* int = .setrange(key, num, value)
 			* int = .getrange(key, start, end)
 			* string = .get(key)
-			* list = .keys(pattern
+			* list = .keys(pattern)
+			* (cursor, list) = .scan(cursor, pattern, count)
 			* bool = .delete(key)
 			* int = .incr(key, default = 1)
 			* int = .decr(key, default = 1)
