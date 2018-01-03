@@ -37,9 +37,9 @@ def print(text):
 #enddef
 
 def status(text):
-	sys.stdout.write(text);  
-	sys.stdout.write("\r");  
-	sys.stdout.flush();  
+	sys.stdout.write(text);
+	sys.stdout.write("\r");
+	sys.stdout.flush();
 	pass;
 #enddef
 
