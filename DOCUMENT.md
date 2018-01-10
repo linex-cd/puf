@@ -26,6 +26,7 @@ python puf.py sample login get_token
 * time
 	* string = get_time_str(timestamp = None)
 	* string = get_date_str(timestamp = None)
+	* string = get_timestamp(timestr = None)
 	* string = get_time_tick(seconds)
 	
 * str

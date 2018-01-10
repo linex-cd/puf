@@ -8,7 +8,7 @@ def connect():
 
 	conn = None;
 	try:
-		conn = pymysql.connect(host = config.mysql.host,user = config.mysql.user, password = config.mysql.pwd, db = config.mysql.db, port = config.mysql.port, charset = config.mysql.charset, connect_timeout = config.timeout.mysql);
+		conn = pymysql.connect(host = config.mysql.host, user = config.mysql.user, password = config.mysql.pwd, db = config.mysql.db, port = config.mysql.port, charset = config.mysql.charset, connect_timeout = config.timeout.mysql);
 		
 	except Exception as e:
 		std.log.warn("Mysql Connect Error: %s" % e);
