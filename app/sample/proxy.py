@@ -18,7 +18,7 @@ def main():
 	std.io.println("Project version: " + config.project.version);
 	
 	
-	#config.proxy.enable = True;
+	config.proxy.enable = True;
 
 	config.mysql.host = "10.10.0.1";
 	config.mysql.user = "test";
