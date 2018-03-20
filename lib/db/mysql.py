@@ -27,15 +27,15 @@ class CMysql:
 	#enddef
 	
 	def lastrowid(self):
-		return insert(self.conn, sql);
+		return lastrowid(self.conn, sql);
 	#enddef
 	
 	def update(self, sql):
-		return insert(self.conn, sql);
+		return update(self.conn, sql);
 	#enddef
 	
 	def fetch(self, sql):
-		return insert(self.conn, sql);
+		return fetch(self.conn, sql);
 	#enddef
 
 #endclass	

@@ -47,7 +47,7 @@ def get_token():
 		return None;
 	#endif
 	
-	nowtime = std.io.get_time_str();
+	nowtime = std.time.get_time_str();
 	sql = "select * from token where expiretime > '" + nowtime +"' order by expiretime desc;";
 	list = mysql.fetch( sql);
 	
