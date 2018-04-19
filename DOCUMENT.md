@@ -58,6 +58,7 @@ python puf.py sample login get_token
 	* http
 		* response = get(url, headers, cookies)
 		* response = post(url, headers, cookies, body)
+		* cookies = string2cookies(string)
 
 * db
 	* mysql

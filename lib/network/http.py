@@ -31,6 +31,16 @@ def post(url, headers, cookies, body):
 	return result;
 #enddef
 
+def string2cookies(string):
+	cookies={};
+	for cookie in string.split(';'):
+		name,value=cookie.strip().split('=',1);
+		cookies[name]=value;
+	#endfor
+	
+	return cookies
+
+#enddef
 	
 if __name__ == '__main__':
 	pass;
