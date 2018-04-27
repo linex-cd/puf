@@ -60,6 +60,8 @@ python puf.py sample login get_token
 	* http
 		* response = get(url, headers, cookies)
 		* response = post(url, headers, cookies, body)
+		* response = head(url, headers, cookies, allow_redirects = False)
+		* bool = download(url, headers, cookies, file_name)
 		* cookies = string2cookies(string)
 
 * db
