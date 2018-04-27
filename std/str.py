@@ -16,6 +16,12 @@ def shape(src_str, prefix_str, suffix_str):
 	return dest_str;
 #enddef
 
+def md5(src_str):
+	m2 = hashlib.md5();
+	m2.update(src_str);
+	dest = m2.hexdigest();
+	return dest;
+#enddef
 
 if __name__ == '__main__':
 	pass;

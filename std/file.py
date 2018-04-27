@@ -3,6 +3,7 @@ from __future__ import absolute_import;
 
 from os import W_OK as os_W_OK;
 from os import access as os_access;
+from os import remove as os_remove;
 from os.path import join as os_path_exists;
 from os.path import isfile as os_path_isfile;
 
@@ -67,6 +68,14 @@ def write(text, filename, overwrite, charset = "UTF-8", binary = False):
 
 def exist(filename):
 	if os_path_exists(filename) and os_path_isfile(filename) and os_access(filename, os_W_OK):
+		return True;
+	#endif
+	return False;
+#enddef
+
+def delete(filename):
+	if exist(filename):
+		os_remove(filename);
 		return True;
 	#endif
 	return False;

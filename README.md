@@ -8,7 +8,8 @@ The libs requested can be find in the file: request.md
 - 1.Download the puf source.
 - 2.Read sample code under $puf/app/sample/
 - 3.Create your project folder under $puf/app/
-- 4.Let's Go with puf DOCUMENT.md
+- 4.Write initialize code in $puf/app/__ctor__.py for the app in the same folder.
+- 5.Let's Go with puf DOCUMENT.md
 
 ### Run
 python puf.py $app_name $module_name [$action_name|main]

@@ -31,11 +31,13 @@ python puf.py sample login get_token
 	
 * str
 	* string = shape(src_str, prefix_str, suffix_str)
+	* string = md5(src_str)
 
 * file
 	* string = read(filename, charset = "UTF-8", binary = False)
 	* bool = write(text, filename, overwrite, charset = "UTF-8", binary = False)
 	* bool = exist(filename)
+	* bool = delete(filename)
 * dir
 	* list = travel(path, ext)
 	* list = list(path)

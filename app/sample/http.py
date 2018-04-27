@@ -13,8 +13,9 @@ def http_request():
 		'Connection': 'Keep-Alive',
 		'User-Agent': 'Apache-HttpClient/UNAVAILABLE',
 	};
-
-	result = lib.network.http.post(url, headers, None, body);
+	cookiestring = "a=1; b=2";
+	cookies = lib.network.http.string2cookies(cookiestring);
+	result = lib.network.http.post(url, headers, cookies, body);
 	
 	text = "";
 	if result.status_code == 200:

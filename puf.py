@@ -44,8 +44,17 @@ def main():
 		return -2;
 	#endif
 	
-	exe_str = "from "+APP_ROOT_DIR+" import " + app_name + ";";
+	#load app package
+	exe_str = "from " + APP_ROOT_DIR + " import " + app_name + ";";
 	exec(exe_str,globals());
+	
+	#run constructor
+	ctor_path = APP_ROOT_DIR + "/" + app_name + "/__ctor__.py";
+	if os.path.exists(app_path):
+		exe_str = std.file.read(ctor_path);
+		exec(exe_str,globals());
+	#endif
+	
 	
 	
 	#load module
@@ -77,6 +86,10 @@ def main():
 		
 		for file_name in fileList:
 			if file_name == "__init__.py":
+				continue;			
+			#endif
+			
+			if file_name == "__ctor__.py":
 				continue;			
 			#endif
 			
