@@ -2,8 +2,8 @@
 import requests;
 import config;
 
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+from requests.packages.urllib3.exceptions import InsecureRequestWarning;
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning);
 
 
 def get(url, headers, cookies):
@@ -73,7 +73,7 @@ def string2cookies(string):
 		cookies[name]=value;
 	#endfor
 	
-	return cookies
+	return cookies;
 
 #enddef
 	

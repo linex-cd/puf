@@ -26,7 +26,7 @@ def println(text):
 	pass;
 #enddef
 
-def print(text):
+def echo(text):
 	if std.env.python_version < (3, 0):
 		from std.print2 import printstr;
 	else:

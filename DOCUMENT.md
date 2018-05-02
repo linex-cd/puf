@@ -17,10 +17,9 @@ python puf.py sample login get_token
 	* (major, minor) = puf_version
 
 * io
-	* null = print(text)
-    * null = println(text)
 	* string = scanln()
-	* null = print(text)
+	* null = println(text)
+	* null = echo(text)
 	* null = status(text)
 
 * time
