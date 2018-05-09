@@ -1,6 +1,7 @@
 import config.mysql;
+import std.io;
 
-print("run ctor!");
+std.io.println("run ctor!");
 
 
 config.mysql.host = "localhost";

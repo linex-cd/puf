@@ -46,7 +46,7 @@ def main():
 		};
 		
 		i = i + 1;
-		std.io.print(str(i)+"#"+proxy+"\t\t");
+		std.io.echo(str(i)+"#"+proxy+"\t\t");
 		
 		t1 = time.time();
 		
@@ -55,19 +55,19 @@ def main():
 		try:
 			result = lib.network.http.get(url, None, None);
 			if result.status_code == 200:
-				std.io.print("OKAY\t");
+				std.io.echo("OKAY\t");
 			else:
-				std.io.print("ERROR\t");
+				std.io.echo("ERROR\t");
 			#endif
 		except:
-			std.io.print("FAILED\t");
+			std.io.echo("FAILED\t");
 		#endtry
 		
 		
 		
 		t2 = time.time();
 		c = t2 - t1;
-		std.io.print(str(int(c*1000)) + "ms\n");
+		std.io.echo(str(int(c*1000)) + "ms\n");
 		
 		
 	#endfor

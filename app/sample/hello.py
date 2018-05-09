@@ -31,7 +31,7 @@ def main():
 	std.io.println("Project Name: " + config.project.name);
 	std.io.println("Project version: " + config.project.version);
 	
-	std.io.print("Input a string(a, b or other):");
+	std.io.echo("Input a string(a, b or other):");
 	x = std.io.scanln();
 	
 	std.ex.switch(x, "a", fun_a, ("args for a"));
