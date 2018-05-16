@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*- 
+import hashlib;
+
 def shape(src_str, prefix_str, suffix_str):
 	
 	prefix_pos = src_str.find(prefix_str) + len(prefix_str);

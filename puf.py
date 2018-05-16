@@ -50,7 +50,7 @@ def main():
 	
 	#run constructor
 	ctor_path = APP_ROOT_DIR + "/" + app_name + "/__ctor__.py";
-	if os.path.exists(app_path):
+	if os.path.exists(ctor_path):
 		exe_str = std.file.read(ctor_path);
 		exec(exe_str,globals());
 	#endif

@@ -1,37 +1,37 @@
 # -*- coding: utf-8 -*- 
-
-import time;
+from __future__ import absolute_import
+import time as sys_time;
 
 
 def get_time_str(timestamp = None):
 	
-	time_t = time.localtime(int(time.time()));
+	time_t = sys_time.localtime(int(sys_time.time()));
 	if timestamp != None:
-		time_t = time.localtime(timestamp);
+		time_t = sys_time.localtime(timestamp);
 	#endif
 
-	timestr = time.strftime("%Y-%m-%d %H:%M:%S", time_t);
+	timestr = sys_time.strftime("%Y-%m-%d %H:%M:%S", time_t);
 	
 	return timestr;
 #enddef
 
 def get_date_str(timestamp = None):
 
-	time_t = time.localtime(int(time.time()));
+	time_t = sys_time.localtime(int(sys_time.time()));
 	if timestamp != None:
-		time_t = time.localtime(timestamp);
+		time_t = sys_time.localtime(timestamp);
 	#endif
 	
-	datestr = time.strftime("%Y-%m-%d", time_t);
+	datestr = sys_time.strftime("%Y-%m-%d", time_t);
 	
 	return datestr;
 #enddef
 
 def get_timestamp(time_str = None):
 
-	timestamp = time.time();
+	timestamp = sys_time.time();
 	if time_str != None:
-		timestamp = time.mktime(time.strptime(time_str,'%Y-%m-%d %H:%M:%S'));
+		timestamp = sys_time.mktime(sys_time.strptime(time_str,'%Y-%m-%d %H:%M:%S'));
 	#endif
 	
 	timestamp = int(timestamp);
