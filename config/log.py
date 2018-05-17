@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*- 
-path = "./log/";
+path = "./runtime/log/";
 
 debug_file = True;
 debug_echo = True;

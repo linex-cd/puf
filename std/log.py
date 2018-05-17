@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*- 
-import config;
 import std.io;
 import std.file;
 import std.time;
+
+import config.log;
 
 import sys;
 
@@ -29,7 +30,7 @@ def info(text):
 	
 	logfile = None;
 	if config.log.info_file == True:
-		logfile = config.log.path + "_" + std.time.get_date_str() +"_info.log";
+		logfile = config.log.path + "_info_" + std.time.get_date_str() +".log";
 	#endif
 	msg(logstr, config.log.info_echo, logfile);
 	pass;
@@ -39,7 +40,7 @@ def debug(text):
 	logstr = "[DEBUG]" + text;
 	logfile = None;
 	if config.log.debug_file == True:
-		logfile = config.log.path + "_" + std.time.get_date_str() +"_debug.log";
+		logfile = config.log.path + "_debug_" + std.time.get_date_str() +".log";
 	#endif
 	msg(logstr, config.log.debug_echo, logfile);
 	pass;
@@ -49,7 +50,7 @@ def warn(text):
 	logstr = "[WARNING]" + text;
 	logfile = None;
 	if config.log.warn_file == True:
-		logfile = config.log.path + "_" + std.time.get_date_str() +"_warning.log";
+		logfile = config.log.path + "_warning_" + std.time.get_date_str() +".log";
 	#endif
 	msg(logstr, config.log.warn_echo, logfile);
 	pass;

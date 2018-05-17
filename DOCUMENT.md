@@ -25,7 +25,7 @@ python puf.py sample login get_token
 * time
 	* string = get_time_str(timestamp = None)
 	* string = get_date_str(timestamp = None)
-	* string = get_timestamp(timestr = None)
+	* int = get_timestamp(timestr = None)
 	* string = get_time_tick(seconds)
 	
 * str
@@ -38,7 +38,7 @@ python puf.py sample login get_token
 	* bool = exist(filename)
 	* bool = delete(filename)
 * dir
-	* list = travel(path, ext)
+	* list = travel(path, ext = None)
 	* list = list(path)
 	* bool = exist(path)
 	* bool = make(path)
@@ -53,6 +53,14 @@ python puf.py sample login get_token
 	* null = debug(text)
 	* null = warn(text)
 
+* cookie
+	* [value, expire] = get(key)
+	* bool = put(key, value, expire = 0)
+	* bool = delete(key)
+	* list = keys()
+	* null = clean()
+	* null = flush()
+	
 #### lib
 
 * network

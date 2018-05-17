@@ -5,6 +5,7 @@ import os;
 import std.file;
 import std.io;
 import std.env;
+import std.session;
 import config;
 
 APP_ROOT_DIR = "app";
@@ -66,7 +67,8 @@ def main():
 	
 	#Set log path
 	temp = "/";
-	if config.log.path[-1:] == "/" or config.log.path[-1:] == "\\":
+	config.log.path = config.log.path.replace("\\","/");
+	if config.log.path[-1:] == "/":
 		temp = "";
 	#endif
 	
@@ -78,7 +80,25 @@ def main():
 		#endif
 	#endif
 	
-	config.log.path = config.log.path + temp +app_name + "/" + app_module;
+	config.log.path = config.log.path + temp + app_name + "/";
+	
+	
+	#Set cookie path
+	temp = "/";
+	config.cookie.path = config.cookie.path.replace("\\","/");
+	if config.cookie.path[-1:] == "/":
+		temp = "";
+	#endif
+	
+	if std.dir.exist(config.cookie.path + temp + app_name) == False:
+		r = std.dir.make(config.cookie.path + temp + app_name);
+		if r == False:
+			std.io.println("Make sure you have permission to access the cookie path.");
+			return -3;
+		#endif
+	#endif
+	
+	config.cookie.path = config.cookie.path + temp +app_name + "/";
 	
 	init_str = "";
 	ls = os.walk(app_path);
@@ -110,7 +130,10 @@ def main():
 		
 	#endfor
 	
-	
+	#keep session
+	std.session.name = app_name;
+	std.session.module = app_module;
+	std.session.action = app_action;
 	
 	#run command
 	exe_str = "app."+app_name+"."+app_module+"."+app_action+"();";

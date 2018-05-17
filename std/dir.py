@@ -8,7 +8,8 @@ from os.path import join as os_path_join;
 from os.path import join as os_path_exists;
 from os.path import isdir as os_path_isdir;
 
-def travel(path, ext):
+#get all files with path
+def travel(path, ext = None):
 	
 	file_list = [];
 	ls = os_walk(path);
@@ -41,7 +42,7 @@ def travel(path, ext):
 	return file_list;
 #enddef
 
-
+#get all files without path
 def list(path):
 	
 	dir_list = os_listdir(path);

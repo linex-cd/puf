@@ -25,6 +25,7 @@ python puf.py sample login get_token
 - Log Management
 - Database & Network Operation
 - Unified Configuration
+- Runtime Cookies
 
 ### Report Bug
 Welcome to write issues to me.
