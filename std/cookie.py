@@ -11,7 +11,7 @@ def get(key):
 	value = None;
 	expire = None;
 	
-	cookie_path = config.cookie.path + key + "@" + std.session.module;
+	cookie_path = config.cookie.path + key + "@" + std.session.module + ".cookie";
 	if std.file.exist(cookie_path):
 		cookie = std.file.read(cookie_path);
 		pos = cookie.find("\n");
@@ -32,7 +32,7 @@ def put(key, value, expire = 0):
 		expire = std.time.get_timestamp() + expire;
 	#endif
 	
-	cookie_path = config.cookie.path + key + "@" + std.session.module;
+	cookie_path = config.cookie.path + key + "@" + std.session.module + ".cookie";
 	
 	cookie = str(expire) + "\n" + value;
 	std.file.write(cookie, cookie_path, True);
@@ -41,7 +41,7 @@ def put(key, value, expire = 0):
 #enddef
 
 def delete(key):
-	cookie_path = config.cookie.path + key + "@" + std.session.module;
+	cookie_path = config.cookie.path + key + "@" + std.session.module + ".cookie";
 	
 	if std.file.exist(cookie_path):
 		std.file.delete(cookie_path);
@@ -55,7 +55,7 @@ def delete(key):
 
 def keys():
 	keys = [];
-	cookies = std.dir.list(config.cookie.path);
+	cookies = std.dir.travel(config.cookie.path, "cookie");
 	for cookie in cookies:
 		p1 = cookie.rfind("/");
 		p2 = cookie.rfind("@");
@@ -68,10 +68,11 @@ def keys():
 
 #remove expired cookies
 def clean():
-	cookies = std.dir.list(config.cookie.path);
+	cookies = std.dir.travel(config.cookie.path, "cookie");
 	for cookie in cookies:
-		pos = cookie.rfind("@");
-		key = cookie[:pos];
+		p1 = cookie.rfind("/");
+		p2 = cookie.rfind("@");
+		key = cookie[p1+1:p2];
 		
 		[v, e] = get(key);
 
@@ -86,7 +87,7 @@ def clean():
 
 #remove all cookies
 def flush():
-	cookies = std.dir.travel(config.cookie.path);
+	cookies = std.dir.travel(config.cookie.path, "cookie");
 	for cookie in cookies:
 		std.file.delete(cookie);
 	#endfor
