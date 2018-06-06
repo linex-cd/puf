@@ -5,52 +5,73 @@ import config;
 from requests.packages.urllib3.exceptions import InsecureRequestWarning;
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning);
 
+def create_session():
 
-def get(url, headers, cookies):
+	return requests.session();
+#enddef
+
+def get(url, headers, cookies, session = None):
 	
 	proxies = None;
 	if config.proxy.enable == True:
 		proxies = config.proxy.proxies;
 	#endif
 	
-	response = requests.get(url = url, headers = headers, cookies = cookies, verify = False, proxies = proxies, timeout = config.timeout.http);
-
+	if session != None:
+		response = session.get(url = url, headers = headers, cookies = cookies, verify = False, proxies = proxies, timeout = config.timeout.http);
+	else:	
+		response = requests.get(url = url, headers = headers, cookies = cookies, verify = False, proxies = proxies, timeout = config.timeout.http);
+	#endif
+	
 	return response;
 #enddef
 
 
-def post(url, headers, cookies, body):
+def post(url, headers, cookies, body, files = None, session = None):
 	
 	proxies = None;
 	if config.proxy.enable == True:
 		proxies = config.proxy.proxies;
 	#endif
 	
-	response = requests.post(url = url, data = body, headers = headers, cookies = cookies, verify = False, proxies = proxies, timeout = config.timeout.http);
-
+	if session != None:
+		response = session.post(url = url, data = body, headers = headers, cookies = cookies, verify = False, proxies = proxies, timeout = config.timeout.http, files = files);
+	else:
+		response = requests.post(url = url, data = body, headers = headers, cookies = cookies, verify = False, proxies = proxies, timeout = config.timeout.http, files = files);
+	#endif
+	
 	return response;
 #enddef
 
-def head(url, headers, cookies, allow_redirects = False):
+def head(url, headers, cookies, allow_redirects = False, session = None):
 	
 	proxies = None;
 	if config.proxy.enable == True:
 		proxies = config.proxy.proxies;
 	#endif
 	
-	response = requests.head(url = url, headers = headers, cookies = cookies, verify = False, proxies = proxies, allow_redirects = allow_redirects, timeout = config.timeout.http);
-		
+	if session != None:
+		response = session.head(url = url, headers = headers, cookies = cookies, verify = False, proxies = proxies, allow_redirects = allow_redirects, timeout = config.timeout.http);
+	else:
+		response = requests.head(url = url, headers = headers, cookies = cookies, verify = False, proxies = proxies, allow_redirects = allow_redirects, timeout = config.timeout.http);
+	#endif
+	
 	return response;
 #enddef
 
-def download(url, headers, cookies, file_name):
+def download(url, headers, cookies, file_name, session = None):
 	
 	proxies = None;
 	if config.proxy.enable == True:
 		proxies = config.proxy.proxies;
 	#endif
 	
-	response = requests.get(url = url, headers = headers, cookies = cookies, verify = False, proxies = proxies, timeout = config.timeout.http);
+	if session != None:
+		response = session.get(url = url, headers = headers, cookies = cookies, verify = False, proxies = proxies, timeout = config.timeout.http);
+	else:
+		response = requests.get(url = url, headers = headers, cookies = cookies, verify = False, proxies = proxies, timeout = config.timeout.http);
+	#endif
+	
 	
 	if response.status_code != 200:
 		return False;

@@ -65,10 +65,11 @@ python puf.py sample login get_token
 
 * network
 	* http
-		* response = get(url, headers, cookies)
-		* response = post(url, headers, cookies, body)
-		* response = head(url, headers, cookies, allow_redirects = False)
-		* bool = download(url, headers, cookies, file_name)
+		* session = create_session()
+		* response = get(url, headers, cookies, session = None)
+		* response = post(url, headers, cookies, body, files = None, session = None)
+		* response = head(url, headers, cookies, allow_redirects = False, session = None)
+		* bool = download(url, headers, cookies, file_name, session = None)
 		* dict = getcookies(reponse)
 		* cookies = string2cookies(string)
 		* string = cookies2string(cookies)
