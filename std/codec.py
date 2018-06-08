@@ -17,7 +17,7 @@ def yeast_decode(string):
 
 	temp = 0;
 	for x in string:
-	  temp = temp*64 + map[x];
+		temp = temp*64 + map[x];
 	#endfor
 	
 	number = temp;
