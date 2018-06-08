@@ -30,7 +30,11 @@ python puf.py sample login get_token
 	
 * str
 	* string = shape(src_str, prefix_str, suffix_str)
+	
+* codec
 	* string = md5(src_str)
+	* int = yeast_decode(string)
+	* string = yeast_encode(int)
 
 * file
 	* string = read(filename, charset = "UTF-8", binary = False)
