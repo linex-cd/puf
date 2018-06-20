@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*- 
-def printline(str):
-	print(str);
+def printline(string):
+	print(string);
 #enddef
 
-def printstr(str):
-	print(str, end = "");
+def printstr(string):
+	print(string, end = "");
 #enddef
