@@ -35,6 +35,8 @@ python puf.py sample login get_token
 	* string = md5(src_str)
 	* int = yeast_decode(string)
 	* string = yeast_encode(int)
+	* string = url_encode(string)
+	* string = url_decode(string)
 
 * file
 	* string = read(filename, charset = "UTF-8", binary = False)

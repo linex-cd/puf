@@ -80,7 +80,7 @@ def main():
 		#endif
 	#endif
 	
-	config.log.path = config.log.path + temp + app_name + "/";
+	config.log.path = config.log.path + temp + app_name + "/" + app_module;
 	
 	
 	#Set cookie path

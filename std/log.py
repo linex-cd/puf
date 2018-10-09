@@ -5,12 +5,12 @@ import std.time;
 
 import config.log;
 
-import sys;
+from sys import _getframe as sys__getframe;
 
 def msg(text, echo = True, tofile = None):
-	parent_function_file = sys._getframe().f_back.f_back.f_code.co_filename; 
-	parent_function_name = sys._getframe().f_back.f_back.f_code.co_name;
-	parent_line_number = sys._getframe().f_back.f_back.f_lineno;
+	parent_function_file = sys__getframe().f_back.f_back.f_code.co_filename; 
+	parent_function_name = sys__getframe().f_back.f_back.f_code.co_name;
+	parent_line_number = sys__getframe().f_back.f_back.f_lineno;
 
 	if echo:
 		echostr = "["+std.time.get_time_str() + "]" + text;

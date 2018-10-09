@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*- 
+import std.env;
+
 import hashlib;
 
 def md5(src_str):
@@ -42,6 +44,25 @@ def yeast_encode(number):
 	string = temp;
 	return string;
 #enddef
+
+def url_encode(string):
+	if std.env.python_version < (3, 0):
+		from std.urlencode2 import urlencode;
+	else:
+		from std.urlencode3 import urlencode;
+	#endif
+	return urlencode(string);
+#enddef
+
+def url_decode(string):
+	if std.env.python_version < (3, 0):
+		from urllib import quote as urldecode;
+	else:
+		from urllib.parse import unquote_plus as urldecode;
+	#endif
+	return urldecode(string);
+#enddef
+
 
 if __name__ == '__main__':
 	pass;

@@ -1,3 +1,4 @@
+from . import codec;
 from . import cookie;
 from . import file;
 from . import hello;
