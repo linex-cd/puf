@@ -7,7 +7,7 @@
 ### lib.db
 - mysql
     - MySQLdb (for python2.x)
-    - pymsqyl (for python3.x)
+    - pymsqyl==0.7.11 (for python3.x)
 
 - redis
 	- redis
