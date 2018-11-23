@@ -8,8 +8,8 @@ from os.path import join as os_path_join;
 from os.path import join as os_path_exists;
 from os.path import isdir as os_path_isdir;
 
-#get all files with path
-def travel(path, ext = None):
+#get all files with subpath
+def files(path, ext = None):
 	
 	file_list = [];
 	ls = os_walk(path);
@@ -42,8 +42,8 @@ def travel(path, ext = None):
 	return file_list;
 #enddef
 
-#get all files without path
-def list(path):
+#get file and dir list without subpath
+def ls(path):
 	
 	dir_list = os_listdir(path);
 	dir_list.sort(key = str.lower);

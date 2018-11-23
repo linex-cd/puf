@@ -55,7 +55,7 @@ def delete(key):
 
 def keys():
 	keys = [];
-	cookies = std.dir.travel(config.cookie.path, "cookie");
+	cookies = std.dir.files(config.cookie.path, "cookie");
 	for cookie in cookies:
 		p1 = cookie.rfind("/");
 		p2 = cookie.rfind("@");
@@ -68,7 +68,7 @@ def keys():
 
 #remove expired cookies
 def clean():
-	cookies = std.dir.travel(config.cookie.path, "cookie");
+	cookies = std.dir.files(config.cookie.path, "cookie");
 	for cookie in cookies:
 		p1 = cookie.rfind("/");
 		p2 = cookie.rfind("@");
@@ -87,7 +87,7 @@ def clean():
 
 #remove all cookies
 def flush():
-	cookies = std.dir.travel(config.cookie.path, "cookie");
+	cookies = std.dir.files(config.cookie.path, "cookie");
 	for cookie in cookies:
 		std.file.delete(cookie);
 	#endfor

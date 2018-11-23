@@ -73,14 +73,28 @@ class CRedis:
 	#enddef
 
 	def hgetall(self, hash_name):
-		return hgetall(self.conn, hash_name);
+		list = [];
+		arr = hgetall(self.conn, hash_name);
+		key = None;
+		for item in arr:
+			
+			if key == None:
+				key = item;
+			else:
+				kv = {key: item};
+				list.append(kv);
+				key = None;
+			#endif
+		
+		#endfor
+		return list;
 	#enddef
 	
-	def hdel(self, name, key = None):
-		return hdel(self.conn, name, key = None);
+	def hdel(self, hash_name, hash_key):
+		return hdel(self.conn, hash_name, hash_key);
 	#enddef
 
-	def clear(self):
+	def flushdb(self):
 		return flushdb(self.conn);
 	#enddef
 
@@ -89,7 +103,15 @@ class CRedis:
 	#enddef
 
 	def lpop(self, key):
-		return plush(self.conn, key);
+		return lpop(self.conn, key);
+	#enddef
+	
+	def rpush(self, key, value):
+		return rpush(self.conn, key, value);
+	#enddef
+
+	def rpop(self, key):
+		return rpop(self.conn, key);
 	#enddef
 
 #endclass		
@@ -193,8 +215,18 @@ def lpush(conn, key, value):
 #enddef
 
 def lpop(conn, key):
-	return conn.plush(key);
+	return conn.lpop(key);
 #enddef
+
+#lists
+def rpush(conn, key, value):
+	return conn.rpush(key, value);
+#enddef
+
+def rpop(conn, key):
+	return conn.rpop(key);
+#enddef
+
 
 		
 if __name__ == '__main__':
