@@ -75,24 +75,24 @@ python puf.py sample login get_token
 
 * file
 	* string = read(filename, charset = "UTF-8", binary = False)
-		- read a file content, UTF-8 charset is default, text mode is default (Please check the accessibility of the file, this interface does not deal with file access excetion.)
+		- read a file content, UTF-8 charset is default, text mode is default (Please check the accessibility of the file by api exist, this interface does not deal with file access excetion.)
 		- 读取文件内容，默认UTF-8编码，默认文本模式 (请使用exist检查文件是否存在和可访问,本接口不处理文件访问异常。)
 	* bool = write(text, filename, overwrite, charset = "UTF-8", binary = False)
-		- white content to a file , UTF-8 charset is default, text mode is default, if overwrite is False, content will append to the file (Please check the accessibility of the file, this interface does not deal with file access exception.)
+		- white content to a file , UTF-8 charset is default, text mode is default, if overwrite is False, content will append to the file (Please check the accessibility of the file by api exist, this interface does not deal with file access exception.)
 		- 写文件内容，默认UTF-8编码，默认文本模式，如何overwrite为False，内容将追加到文件 (请使用exist检查文件是否存在和可访问,本接口不处理文件访问异常。)
 	* bool = exist(filename)
 		- check the accessibility of a file
 		- 检查文件的可访问性
 	* bool = delete(filename)
-		- delete a file (Please check the accessibility of the file, this interface does not deal with file access exception.)
+		- delete a file (Please check the accessibility of the file by api exist, this interface does not deal with file access exception.)
 		- 删除一个文件 (请使用exist检查文件是否存在和可访问,本接口不处理文件访问异常。)
 
 * dir
 	* list = files(path, ext = None)
-		- enumerate all files in a directory, including sub directory, if ext is not None, files without this extension will be filtered (Please check the accessibility of the directory, this interface does not deal with directory access exception.)
+		- enumerate all files in a directory, including sub directory, if ext is not None, files without this extension will be filtered (Please check the accessibility of the directory by api exist, this interface does not deal with directory access exception.)
 		- 枚举一个目录下的所有文件，不包含子目录，如果ext参数不为空，文件不带ext后缀的文件将被过滤 (请使用exist检查目录是否存在和可访问，本接口不处理目录访问异常。)
 	* list = ls(path)
-		- get sub directories and files in a directory, excluding sub directory (Please check the accessibility of the directory, this interface does not deal with directory access exception.)
+		- get sub directories and files in a directory, excluding sub directory (Please check the accessibility of the directory by api exist, this interface does not deal with directory access exception.)
 		- 枚举一个目录下的子目录和文件，不包含子目录 (请使用exist检查目录是否存在和可访问，本接口不处理目录访问异常。)
 	* bool = exist(path)
 		- check the accessibility of a directory
