@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*- 
-import std.io;
+import std.log;
 import config;
 
 import pymysql;

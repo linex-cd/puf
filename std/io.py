@@ -6,32 +6,62 @@ import std.env;
 
 import sys;
 
+if std.env.python_version < (3, 0):
+	def_scanline_src='''
+def scanline():
+	return raw_input();
+#enddef
+'''
+
+	def_printline_src='''
+def printline(string):
+	print string
+#enddef
+'''
+
+	def_printstr_src='''
+def printstr(string):
+	print string,
+#enddef
+'''
+
+else:
+	def_scanline_src='''
+def scanline():
+	return input();
+#enddef
+'''
+
+	def_printline_src='''
+def printline(string):
+	print(string);
+#enddef
+'''
+
+	def_printstr_src='''
+def printstr(string):
+	print(string, end = "");
+#enddef
+'''
+
+#endif
+exec(def_scanline_src);
+
+exec(def_printline_src);
+
+exec(def_printstr_src);
+
 
 def scanln():
-	if std.env.python_version < (3, 0):
-		from std.scan2 import scanline;
-	else:
-		from std.scan3 import scanline;
-	#endif
 	return scanline();
 #enddef
 
 def println(text):
-	if std.env.python_version < (3, 0):
-		from std.print2 import printline;
-	else:
-		from std.print3 import printline;
-	#endif
 	printline(text);
 	pass;
 #enddef
 
 def echo(text):
-	if std.env.python_version < (3, 0):
-		from std.print2 import printstr;
-	else:
-		from std.print3 import printstr;
-	#endif
 	printstr(text);
 	pass;
 #enddef

@@ -1,7 +1,7 @@
 import std.io;
 import std.log;
 import std.time;
-import lib.db.mysql;
+import lib.database.mysql;
 import config.mysql;
 
 import json;
@@ -23,7 +23,7 @@ def save_token(token_str):
 	#endtry
 	
 	
-	conn = lib.db.mysql.connect();
+	conn = lib.database.mysql.connect();
 	if conn == None:
 		return None;
 	#endif
@@ -32,8 +32,8 @@ def save_token(token_str):
 	expire_time = std.time.get_str(ltime);
 	
 	sql = "insert into token(`token`, `type`, `expire`, `expiretime`) values('"+ token["access_token"] +"', '"+ token["token_type"] +"', '"+ str(token["expires_in"]) +"', '"+ expire_time +"');";
-	lib.db.mysql.insert(conn, sql);
-	lib.db.mysql.close(conn);
+	lib.database.mysql.insert(conn, sql);
+	lib.database.mysql.close(conn);
 	
 	std.log.info("Token Saved!");
 	pass;
@@ -42,7 +42,7 @@ def save_token(token_str):
 
 def get_token():
 	
-	mysql = lib.db.mysql.CMysql();
+	mysql = lib.database.mysql.CMysql();
 	if mysql.conn == None:
 		return None;
 	#endif

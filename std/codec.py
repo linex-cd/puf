@@ -47,9 +47,9 @@ def yeast_encode(number):
 
 def url_encode(string):
 	if std.env.python_version < (3, 0):
-		from std.urlencode2 import urlencode;
+		from urllib import quote as urlencode;
 	else:
-		from std.urlencode3 import urlencode;
+		from urllib.parse import quote_plus as urlencode;
 	#endif
 	return urlencode(string);
 #enddef

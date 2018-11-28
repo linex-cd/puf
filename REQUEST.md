@@ -2,7 +2,7 @@
 
 ### lib.network
 - http
-    - requests
+    - requests[socks]
 
 ### lib.db
 - mysql

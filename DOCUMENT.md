@@ -174,7 +174,7 @@ python puf.py sample login get_token
 			- sort url parameters, ascent is default
 			- url参数排序，默认升序
 
-* db
+* database
 	* mysql
 		* C style
 			* conn = connect()
