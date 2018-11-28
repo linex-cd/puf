@@ -312,8 +312,6 @@ def connect(use_global = False):
 		except Exception as e:
 			#log("Mysql Connect Error: %s" % e);
 			log("data connection error");
-		finally:  
-			pass;
 		#endtry
 		
 	#endfor
@@ -340,8 +338,6 @@ def close(conn):
 	except Exception as e:
 		#log("Mysql Close Error: %s" % e);
 		log("data shutdown error");
-	finally:  
-		pass;
 	#endtry
 	
 	return True;
@@ -366,8 +362,6 @@ def insert(conn, sql):
 		log("data insert error");
 		conn.rollback();
 		id = -1;
-	finally:  
-		cur.close();
 	#endtry
 	
 	return id;
@@ -387,8 +381,6 @@ def lastrowid(conn):
 		#log("Mysql LastRowID Error: %s" % e);
 		log("data last_id error");
 		id = -1;
-	finally:  
-		cur.close();
 	#endtry
 	
 	return id;
@@ -412,8 +404,6 @@ def update(conn, sql):
 		log("data update error");
 		conn.rollback();
 		result = False;
-	finally:  
-		cur.close();
 	#endtry
 	
 	return result;
@@ -435,8 +425,6 @@ def fetch(conn, sql):
 		log("data fetch error");
 		conn.rollback();
 		list = None;
-	finally:  
-		cur.close();
 	#endtry
 	
 	return list;

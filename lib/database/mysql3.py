@@ -12,8 +12,6 @@ def connect():
 		
 	except Exception as e:
 		std.log.warn("Mysql Connect Error: %s" % e);
-	finally:  
-		pass;
 	#endtry
 	
 	return conn;	
@@ -25,8 +23,6 @@ def close(conn):
 		conn.close()
 	except Exception as e:
 		std.log.warn("Mysql Close Error: %s" % e);
-	finally:  
-		pass;
 	#endtry
 	pass;
 #endif
@@ -45,8 +41,6 @@ def insert(conn, sql):
 		std.log.warn("Mysql Insert Error: %s" % e);
 		conn.rollback();
 		id = -1;
-	finally:  
-		cur.close();
 	#endtry
 	
 	return id;
@@ -61,8 +55,6 @@ def lastrowid(conn):
 	except Exception as e:
 		std.log.warn("Mysql LastRowID Error: %s" % e);
 		id = -1;
-	finally:  
-		cur.close();
 	#endtry
 	
 	return id;
@@ -80,8 +72,6 @@ def update(conn, sql):
 		std.log.warn("Mysql Update Error: %s" % e);
 		conn.rollback();
 		result = False;
-	finally:  
-		cur.close();
 	#endtry
 	
 	return result;
@@ -99,8 +89,6 @@ def fetch(conn, sql):
 		std.log.warn("Mysql Fetch Error: %s" % e);
 		conn.rollback();
 		list = None;
-	finally:  
-		cur.close();
 	#endtry
 	
 	return list;
