@@ -291,6 +291,43 @@ def cookies2string(cookies):
 	return string;
 #enddef
 
+
+def sorturl(url, asc = True):
+
+	p1 = url.find("?");
+	if p1 == -1:
+		return url;
+	#endif
+	
+	p2 = url.find("#");
+	if p2 == -1:
+		p2 = len(url);
+	#endif
+	
+	query = url[p1+1: p2];
+	arr = query.split("&");
+	dict = [];
+	for item in arr:
+		temp = item.split("=");
+		
+		dict.append((temp[0],temp[1]));
+	#endfor
+
+	reverse = not asc;
+	dict = sorted(dict, key=lambda k:k[0], reverse = reverse);
+	
+	query = "";
+	for item in dict:
+		(k, v) = item;
+		query = query + k + "=" + v + "&";
+	#endfor
+	
+	query = query[:-1];
+	url = url[: p1+1] + query;
+	
+	return url;
+#endif
+
 ####################################################
 import pymysql;
 
