@@ -462,38 +462,42 @@ def fetch(conn, sql):
 
 
 def make_insert_sql(table_name, data_dictionary, update_columns):
-	
+		
 	columnssql = "";
 	valuessql = "";
 	updatessql = "";
-	for key in data.keys():
-		value = str(data[key]);
+	if len(update_columns) > 0:
+		updatessql = " on duplicate key update ";
+	#endif
+	for key in data_dictionary.keys():
+		value = str(data_dictionary[key]);
 		value = value.replace("'", "\'");
 		value = value.replace("`", "\`");
-		columnssql = columnssql + "`"+key+"`,\n"
-		valuessql = valuessql + "'"+value+"',\n"
+		columnssql = columnssql + "`"+key+"`,\n";
+		valuessql = valuessql + "'"+value+"',\n";
 		
-		if key in updates:
-			updatessql = updatessql + "`"+key+"` = '"+str(data[key])+"',\n"
-
+		if key in update_columns:
+			updatessql = updatessql + "`"+key+"` = '"+str(data_dictionary[key])+"',\n";
 		#endif
 	#endfor
 	
-	sql = "insert into `#tablename#`( #columns# ) values( #values# ) on duplicate key update #updates# ;\n";
+	sql = "insert into `#tablename#`( #columns# ) values( #values# ) #updates# ;\n";
 	
 	columnssql = columnssql[:-2];
 	valuessql = valuessql[:-2];
+	
+	
+	
 	if len(updatessql) > 2:
 		updatessql = updatessql[:-2];
 	#endif
 	
-	sql = sql.replace("#tablename#", tablename);
+	sql = sql.replace("#tablename#", table_name);
 	sql = sql.replace("#columns#", columnssql);
 	sql = sql.replace("#values#", valuessql);
 	sql = sql.replace("#updates#", updatessql);
 	
 	return sql;
-	
 #enddef
 
 	
