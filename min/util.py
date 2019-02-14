@@ -36,6 +36,24 @@ exec(def_printline_src);
 
 ######################################
 
+def shape(src_str, prefix_str, suffix_str):
+	
+	prefix_pos = src_str.find(prefix_str) + len(prefix_str);
+	if prefix_pos == -1:
+		return None;
+	#endif
+	temp_str = src_str[prefix_pos:];
+	
+	suffix_pos = temp_str.find(suffix_str);
+	if suffix_pos == -1:
+		return None;
+	#endif
+	dest_str = temp_str[:suffix_pos];
+	
+	return dest_str;
+#enddef
+
+
 def log(text):
 
 	now = time.strftime("%Y-%m-%d %H:%M:%S");
@@ -291,43 +309,6 @@ def cookies2string(cookies):
 	return string;
 #enddef
 
-
-def sorturl(url, asc = True):
-
-	p1 = url.find("?");
-	if p1 == -1:
-		return url;
-	#endif
-	
-	p2 = url.find("#");
-	if p2 == -1:
-		p2 = len(url);
-	#endif
-	
-	query = url[p1+1: p2];
-	arr = query.split("&");
-	dict = [];
-	for item in arr:
-		temp = item.split("=");
-		
-		dict.append((temp[0],temp[1]));
-	#endfor
-
-	reverse = not asc;
-	dict = sorted(dict, key=lambda k:k[0], reverse = reverse);
-	
-	query = "";
-	for item in dict:
-		(k, v) = item;
-		query = query + k + "=" + v + "&";
-	#endfor
-	
-	query = query[:-1];
-	url = url[: p1+1] + query;
-	
-	return url;
-#endif
-
 ####################################################
 import pymysql;
 
@@ -349,6 +330,8 @@ def connect(use_global = False):
 		except Exception as e:
 			#log("Mysql Connect Error: %s" % e);
 			log("data connection error");
+		finally:  
+			pass;
 		#endtry
 		
 	#endfor
@@ -375,6 +358,8 @@ def close(conn):
 	except Exception as e:
 		#log("Mysql Close Error: %s" % e);
 		log("data shutdown error");
+	finally:  
+		pass;
 	#endtry
 	
 	return True;
@@ -399,6 +384,8 @@ def insert(conn, sql):
 		log("data insert error");
 		conn.rollback();
 		id = -1;
+	finally:  
+		cur.close();
 	#endtry
 	
 	return id;
@@ -418,6 +405,8 @@ def lastrowid(conn):
 		#log("Mysql LastRowID Error: %s" % e);
 		log("data last_id error");
 		id = -1;
+	finally:  
+		cur.close();
 	#endtry
 	
 	return id;
@@ -441,6 +430,8 @@ def update(conn, sql):
 		log("data update error");
 		conn.rollback();
 		result = False;
+	finally:  
+		cur.close();
 	#endtry
 	
 	return result;
@@ -462,10 +453,48 @@ def fetch(conn, sql):
 		log("data fetch error");
 		conn.rollback();
 		list = None;
+	finally:  
+		cur.close();
 	#endtry
 	
 	return list;
 #enddef	
+
+
+def make_insert_sql(table_name, data_dictionary, update_columns):
+	
+	columnssql = "";
+	valuessql = "";
+	updatessql = "";
+	for key in data.keys():
+		value = str(data[key]);
+		value = value.replace("'", "\'");
+		value = value.replace("`", "\`");
+		columnssql = columnssql + "`"+key+"`,\n"
+		valuessql = valuessql + "'"+value+"',\n"
+		
+		if key in updates:
+			updatessql = updatessql + "`"+key+"` = '"+str(data[key])+"',\n"
+
+		#endif
+	#endfor
+	
+	sql = "insert into `#tablename#`( #columns# ) values( #values# ) on duplicate key update #updates# ;\n";
+	
+	columnssql = columnssql[:-2];
+	valuessql = valuessql[:-2];
+	if len(updatessql) > 2:
+		updatessql = updatessql[:-2];
+	#endif
+	
+	sql = sql.replace("#tablename#", tablename);
+	sql = sql.replace("#columns#", columnssql);
+	sql = sql.replace("#values#", valuessql);
+	sql = sql.replace("#updates#", updatessql);
+	
+	return sql;
+	
+#enddef
 
 	
 if __name__ == '__main__':

@@ -79,7 +79,7 @@ python puf.py sample login get_token
 		- 读取文件内容，默认UTF-8编码，默认文本模式 (请使用exist检查文件是否存在和可访问,本接口不处理文件访问异常。)
 	* bool = write(text, filename, overwrite, charset = "UTF-8", binary = False)
 		- white content to a file , UTF-8 charset is default, text mode is default, if overwrite is False, content will append to the file (Please check the accessibility of the file by api exist, this interface does not deal with file access exception.)
-		- 写文件内容，默认UTF-8编码，默认文本模式，如何overwrite为False，内容将追加到文件 (请使用exist检查文件是否存在和可访问,本接口不处理文件访问异常。)
+		- 写文件内容，默认UTF-8编码，默认文本模式，如果overwrite为False，内容将追加到文件 (请使用exist检查文件是否存在和可访问,本接口不处理文件访问异常。)
 	* bool = exist(filename)
 		- check the accessibility of a file
 		- 检查文件的可访问性
@@ -195,13 +195,16 @@ python puf.py sample login get_token
 			* list = fetch(conn, sql)
 				- execute query sql, and return row list (column name is the row key, not array index)
 				- 执行查询数据的SQL，并获取条目列表 （列名是记录的键名，而不是数组下标）
-
+			* string = make_insert_sql(table_name, data_dictionary, update_columns)
+				- make an insert sql with the table name, data dictionary and update columns, and return the sql string
+				- 根据数据字典生成插入表的SQL语句，并根据数组生成当主键存在时的更新语句
 		
 		* Class style (class name: CMysql)
 			* id = .insert(sql)
 			* id = .lastrowid()
 			* bool = .update(sql)
 			* list = .fetch(sql)
+			* string = .make_insert_sql(table_name, data_dictionary, update_columns)
 	
 	* redis
 		* C style
