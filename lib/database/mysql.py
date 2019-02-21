@@ -55,11 +55,11 @@ def make_insert_sql(table_name, data_dictionary, update_columns):
 		updatessql = " on duplicate key update ";
 	#endif
 	for key in data_dictionary.keys():
-		value = str(data_dictionary[key]);
-		value = value.replace("'", "\'");
-		value = value.replace("`", "\`");
+		data_dictionary[key] = str(data_dictionary[key]);
+		data_dictionary[key] = data_dictionary[key].replace("'", "\'");
+		data_dictionary[key] = data_dictionary[key].replace("`", "\`");
 		columnssql = columnssql + "`"+key+"`,\n";
-		valuessql = valuessql + "'"+value+"',\n";
+		valuessql = valuessql + "'"+data_dictionary[key]+"',\n";
 		
 		if key in update_columns:
 			updatessql = updatessql + "`"+key+"` = '"+str(data_dictionary[key])+"',\n";
@@ -71,10 +71,10 @@ def make_insert_sql(table_name, data_dictionary, update_columns):
 	columnssql = columnssql[:-2];
 	valuessql = valuessql[:-2];
 	
-	
-	
-	if len(updatessql) > 2:
+	if len(updatessql) > len(" on duplicate key update "):
 		updatessql = updatessql[:-2];
+	else:
+		updatessql = "";
 	#endif
 	
 	sql = sql.replace("#tablename#", table_name);
