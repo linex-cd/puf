@@ -170,6 +170,9 @@ python puf.py sample login get_token
 		* string = cookies2string(cookies)
 			- convert cookies object to string
 			- 把cookies对象转为字符串
+		* string = cookie_from_ios_cookies_binary_hex_string(ios_cookies_binary_hex_string)
+			- sort url parameters, ascent is default
+			- 把iOS的Cookies.binarycookies文件转成cookies字符串
 		* string = sorturl(string, asc = True)
 			- sort url parameters, ascent is default
 			- url参数排序，默认升序

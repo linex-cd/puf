@@ -112,9 +112,9 @@ import binascii;
 import time;
 
 
-def cookie_from_ios_cookies_binary(ios_cookies_binary):
+def cookie_from_ios_cookies_binary_hex_string(ios_cookies_binary_hex_string):
 
-	raw = binascii.unhexlify(ios_cookies_binary);
+	raw = binascii.unhexlify(ios_cookies_binary_hex_string);
 	binary_file = io.BytesIO(raw);
 	
 	
