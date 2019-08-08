@@ -86,11 +86,16 @@ def readfile(filename):
 def writefile(filename, text, mode = "w"):
 	
 	f = None;
+	encoding = "UTF-8";
+	if mode.find("b") >=0:
+		encoding = None;
+	#endif
+	
 	if python_version < (3, 0):
 		from codecs import open as open2;
-		f = open2(filename, mode, encoding = "UTF-8");
+		f = open2(filename, mode, encoding);
 	else:
-		f = open(filename, mode, encoding = "UTF-8");
+		f = open(filename, mode, encoding);
 	#endif
 	
 	f.write(text);
@@ -310,16 +315,146 @@ def cookies2string(cookies):
 #enddef
 
 ####################################################
+#*******************************************************************************#
+# cookie_from_ios63data: Written By Linex                                       #
+#                                                                               #
+#                                                                               #
+# Safari browser and iOS applications store the persistent cookies in a binary  #
+# file names Cookies.binarycookies.BinaryCookieReader is used to dump all the   #
+# cookies from the binary Cookies.binarycookies file.                           #
+#                                                                               #
+#*******************************************************************************#
+
+import struct
+import io
+import time;
+import binascii;
+
+
+def cookie_from_ios_cookies_binary(ios_cookies_binary):
+
+	raw = binascii.unhexlify(ios_cookies_binary);
+	binary_file = io.BytesIO(raw);
+	
+	
+	file_header = binary_file.read(4);                             #File Magic String:cook 
+
+	if file_header.decode() != 'cook':
+		return None;
+	#endif
+		
+	num_pages = struct.unpack('>i',binary_file.read(4))[0];              #Number of pages in the binary file: 4 bytes
+
+	page_sizes = []
+	for np in range(num_pages):
+		page_sizes.append(struct.unpack('>i',binary_file.read(4))[0]);  #Each page size: 4 bytes*number of pages
+	#endfor
+	
+	pages = []
+	for ps in page_sizes:
+		pages.append(binary_file.read(ps));                     				#Grab individual pages and each page will contain >= one cookie
+	
+	#endfor
+	
+	cookie_str = "";
+	for page in pages:
+		page = io.BytesIO(page);                                     			#Converts the string to a file. So that we can use read/write operations easily.
+		page.read(4);                                            				#page header: 4 bytes: Always 00000100
+		num_cookies=struct.unpack('<i',page.read(4))[0];                		#Number of cookies in each page, first 4 bytes after the page header in every page.
+		
+		cookie_offsets=[];
+		for nc in range(num_cookies):
+			cookie_offsets.append(struct.unpack('<i',page.read(4))[0]); 		#Every page contains >= one cookie. Fetch cookie starting point from page starting byte
+
+		page.read(4);                                            				#end of page header: Always 00000000
+
+		cookie = '';
+		for offset in cookie_offsets:
+			page.seek(offset);                                   				#Move the page pointer to the cookie starting point
+			cookiesize = struct.unpack('<i',page.read(4))[0];             			#fetch cookie size
+			cookie = io.BytesIO(page.read(cookiesize));             					#read the complete cookie 
+			
+			cookie.read(4);                                      				#unknown
+			
+			flags = struct.unpack('<i',cookie.read(4))[0];                			#Cookie flags:  1=secure, 4=httponly, 5=secure+httponly
+			cookie_flags = '';
+			if flags == 0:
+				cookie_flags = '';
+			elif flags == 1:
+				cookie_flags = 'Secure';
+			elif flags == 4:
+				cookie_flags = 'HttpOnly';
+			elif flags == 5:
+				cookie_flags = 'Secure; HttpOnly';
+			else:
+				cookie_flags = 'Unknown';
+			
+			#endif			
+			
+			cookie.read(4);                                      					#unknown
+			
+			urloffset = struct.unpack('<i',cookie.read(4))[0];            			#cookie domain offset from cookie starting point
+			nameoffset = struct.unpack('<i',cookie.read(4))[0];           			#cookie name offset from cookie starting point
+			pathoffset = struct.unpack('<i',cookie.read(4))[0];           			#cookie path offset from cookie starting point
+			valueoffset = struct.unpack('<i',cookie.read(4))[0];          			#cookie value offset from cookie starting point
+			
+			endofcookie = cookie.read(8);                         					#end of cookie
+									
+			expiry_date_epoch = struct.unpack('<d',cookie.read(8))[0]+978307200;          			#Expiry date is in Mac epoch format: Starts from 1/Jan/2001
+			expiry_date = time.strftime("%a, %d %b %Y ",time.gmtime(expiry_date_epoch))[:-1]; 		#978307200 is unix epoch of  1/Jan/2001 //[:-1] strips the last space
+					
+			create_date_epoch = struct.unpack('<d',cookie.read(8))[0]+978307200;           			#Cookies creation time
+			create_date = time.strftime("%a, %d %b %Y ",time.gmtime(create_date_epoch))[:-1];
+			#print create_date
+			
+			cookie.seek(urloffset-4);                            #fetch domaain value from url offset
+			url = '';
+			u = cookie.read(1);
+			while struct.unpack('<b',u)[0] != 0:
+				url = url + u.decode();
+				u = cookie.read(1);
+			#endwhile
+			
+			cookie.seek(nameoffset-4);                           #fetch cookie name from name offset
+			name = '';
+			n = cookie.read(1);
+			while struct.unpack('<b',n)[0] != 0:
+				name = name + n.decode();
+				n = cookie.read(1);
+			#endwhile
+			
+			cookie.seek(pathoffset-4);                          #fetch cookie path from path offset
+			path = '';
+			pa = cookie.read(1)
+			while struct.unpack('<b',pa)[0] != 0:
+				path = path + pa.decode();
+				pa = cookie.read(1);
+			#endwhile
+			
+			cookie.seek(valueoffset-4);                         #fetch cookie value from value offset
+			value = '';
+			va = cookie.read(1);
+			while struct.unpack('<b',va)[0] != 0:
+				value = value + va.decode();
+				va = cookie.read(1);
+			#endwhile
+			
+			cookie_item = name+'='+value+'; domain='+url+'; path='+path+'; '+'expires='+expiry_date+'; '+cookie_flags;
+			cookie_str = cookie_str + cookie_item;
+					
+		#endfor
+	#endfor
+	
+	return cookie_str;
+
+#enddef
+
+
+
+####################################################
 import pymysql;
 
-global_conn = None; 
-
-def connect(use_global = False):
-	global global_conn;
-	if global_conn != None:
-		log("使用全局连接");
-		return global_conn;
-	#endif
+def connect():
 	
 	RETRY_TIMES = 3;
 	conn = None;
@@ -335,24 +470,13 @@ def connect(use_global = False):
 		#endtry
 		
 	#endfor
-	if use_global:
-		global_conn = conn;
-		log("首次连接");
-	#endif
+	
 	return conn;
 #enddef
 
 
 def close(conn):
-	global global_conn;
-	if global_conn != None:
-		#log("不关闭全局连接");
-		return False;
-	else:
-		#log("数据库关闭");
-		pass;
-	#endif
-
+	
 	try:
 		conn.close()
 	except Exception as e:
@@ -367,10 +491,7 @@ def close(conn):
 
 
 def insert(conn, sql):
-	global global_conn;
-	if global_conn != None:
-		conn = global_conn;
-	#endif
+	
 	id = 0;
 	try:
 		cur = conn.cursor();
@@ -392,10 +513,7 @@ def insert(conn, sql):
 #enddef
 
 def lastrowid(conn):
-	global global_conn;
-	if global_conn != None:
-		conn = global_conn;
-	#endif
+	
 	id = 0;
 	try:
 		cur = conn.cursor();
@@ -413,10 +531,7 @@ def lastrowid(conn):
 #enddef
 
 def update(conn, sql):
-	global global_conn;
-	if global_conn != None:
-		conn = global_conn;
-	#endif
+	
 	result = True;
 
 	try:
@@ -438,10 +553,7 @@ def update(conn, sql):
 #enddef
 
 def fetch(conn, sql):
-	global global_conn;
-	if global_conn != None:
-		conn = global_conn;
-	#endif
+	
 	list = [];
 	try:
 		cur = conn.cursor(pymysql.cursors.DictCursor);
