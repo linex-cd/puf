@@ -220,7 +220,8 @@ def cookie_from_ios_cookies_binary_hex_string(ios_cookies_binary_hex_string):
 				va = cookie.read(1);
 			#endwhile
 			
-			cookie_item = name+'='+value+'; domain='+url+'; path='+path+'; '+'expires='+expiry_date+'; '+cookie_flags;
+			#cookie_item = name+'='+value+'; domain='+url+'; path='+path+'; '+'expires='+expiry_date+'; '+cookie_flags+';';
+			cookie_item = name+'='+value+';';
 			cookie_str = cookie_str + cookie_item;
 					
 		#endfor
