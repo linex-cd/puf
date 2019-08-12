@@ -357,6 +357,7 @@ def cookie_from_ios_cookies_binary_hex_string(ios_cookies_binary_hex_string):
 	#endfor
 	
 	cookie_str = "";
+	keys = [];
 	for page in pages:
 		page = io.BytesIO(page);                                     			#Converts the string to a file. So that we can use read/write operations easily.
 		page.read(4);                                            				#page header: 4 bytes: Always 00000100
@@ -439,9 +440,12 @@ def cookie_from_ios_cookies_binary_hex_string(ios_cookies_binary_hex_string):
 				va = cookie.read(1);
 			#endwhile
 			
-			#cookie_item = name+'='+value+'; domain='+url+'; path='+path+'; '+'expires='+expiry_date+'; '+cookie_flags+';';
-			cookie_item = name+'='+value+';';
-			cookie_str = cookie_str + cookie_item;
+			if name not in keys:
+				#cookie_item = name+'='+value+'; domain='+url+'; path='+path+'; '+'expires='+expiry_date+'; '+cookie_flags;
+				cookie_item = name+'='+value+';';
+				keys.append(name);
+				cookie_str = cookie_str + cookie_item;
+			#endif
 					
 		#endfor
 	#endfor
