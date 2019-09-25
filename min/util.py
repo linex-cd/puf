@@ -93,9 +93,9 @@ def writefile(filename, text, mode = "w"):
 	
 	if python_version < (3, 0):
 		from codecs import open as open2;
-		f = open2(filename, mode, encoding);
+		f = open2(file = filename, mode = mode, encoding = encoding);
 	else:
-		f = open(filename, mode, encoding);
+		f = open(file = filename, mode = mode, encoding = encoding);
 	#endif
 	
 	f.write(text);

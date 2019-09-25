@@ -51,9 +51,9 @@ def write(text, filename, overwrite, charset = "UTF-8", binary = False):
 	
 	if std.env.python_version < (3, 0):
 		from codecs import open as open2;
-		f = open2(filename, mode, encoding = charset);
+		f = open2(file = filename, mode = mode, encoding = charset);
 	else:
-		f = open(filename, mode, encoding = charset);
+		f = open(file = filename, mode = mode, encoding = charset);
 	#endif
 
 	if f == False:
