@@ -2,10 +2,12 @@
 
 def shape(src_str, prefix_str, suffix_str):
 	
-	prefix_pos = src_str.find(prefix_str) + len(prefix_str);
+	prefix_pos = src_str.find(prefix_str);
 	if prefix_pos == -1:
 		return None;
 	#endif
+	
+	prefix_pos = prefix_pos + len(prefix_str);
 	temp_str = src_str[prefix_pos:];
 	
 	suffix_pos = temp_str.find(suffix_str);
