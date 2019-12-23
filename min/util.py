@@ -590,7 +590,7 @@ def make_insert_sql(table_name, data_dictionary, update_columns):
 	#endif
 	for key in data_dictionary.keys():
 		data_dictionary[key] = str(data_dictionary[key]);
-		data_dictionary[key] = data_dictionary[key].replace("'", "\\'");
+		data_dictionary[key] = data_dictionary[key].replace("'", "''");
 		data_dictionary[key] = data_dictionary[key].replace("`", "\`");
 		data_dictionary[key] = data_dictionary[key].replace("\\", "\\\\");
 		columnssql = columnssql + "`"+key+"`,\n";
