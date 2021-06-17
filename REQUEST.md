@@ -8,6 +8,7 @@
 - mysql
     - MySQLdb (for python2.x)
     - pymsqyl==0.7.11 (for python3.x)
+    - dbutils==2.0.1 (for python3.x)
 
 - redis
 	- redis
