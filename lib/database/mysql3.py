@@ -3,6 +3,7 @@ import std.log;
 import config;
 
 import pymysql;
+import dbutils;
 
 def connect():
 
@@ -34,7 +35,11 @@ def insert(conn, sql):
 		cur = conn.cursor();
 		cur.execute(sql);
 		
-		id = int(conn.insert_id()); #conn.insert_id() must be used before conn.commit(), or it will be zero  
+		if type(conn) is dbutils.steady_db.SteadyDBConnection:
+			id = 1;
+		else:
+			id = int(conn.insert_id());
+		#endif
 		
 		conn.commit();
 	except Exception as e:
