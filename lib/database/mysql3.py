@@ -3,19 +3,57 @@ import std.log;
 import config;
 
 import pymysql;
-import dbutils;
 
-def connect():
+from dbutils.persistent_db import PersistentDB;
+from dbutils.steady_db import SteadyDBConnection;
 
-	conn = None;
-	try:
-		conn = pymysql.connect(host = config.mysql.host, user = config.mysql.user, password = config.mysql.pwd, db = config.mysql.db, port = config.mysql.port, charset = config.mysql.charset, connect_timeout = config.timeout.mysql);
-		
-	except Exception as e:
-		std.log.warn("Mysql Connect Error: %s" % e);
-	#endtry
+
+def connect(Persistent = False):
 	
-	return conn;	
+	RETRY_TIMES = 3;
+	conn = None;
+	for i in range(RETRY_TIMES):
+		try:
+		
+			if Persistent:
+				PooL = PersistentDB(
+					creator = pymysql, 
+					maxusage = None,
+					setsession = [],
+					ping = 2,
+					closeable = False,
+					threadlocal = None,
+					host = host,
+					port = port,
+					user = user,
+					password = password,
+					database = db,
+					charset = charset
+				);
+				conn = PooL.connection();
+			else:
+				conn = pymysql.connect(
+				host = host,
+				user = user,
+				password = password,
+				db = db, 
+				port = port, 
+				charset = charset, 
+				connect_timeout = mysql_timeout
+				);
+			#endif
+			
+			break;
+		except Exception as e:
+			#log("Mysql Connect Error: %s" % e);
+			log("data connection error");
+		finally:  
+			pass;
+		#endtry
+		
+	#endfor
+	
+	return conn;
 #enddef
 
 
@@ -35,7 +73,7 @@ def insert(conn, sql):
 		cur = conn.cursor();
 		cur.execute(sql);
 		
-		if type(conn) is dbutils.steady_db.SteadyDBConnection:
+		if type(conn) is SteadyDBConnection:
 			id = 1;
 		else:
 			id = int(conn.insert_id());

@@ -460,15 +460,45 @@ def cookie_from_ios_cookies_binary_hex_string(ios_cookies_binary_hex_string):
 
 ####################################################
 import pymysql;
-import dbutils;
+from dbutils.persistent_db import PersistentDB;
+from dbutils.steady_db import SteadyDBConnection;
 
-def connect():
+
+def connect(Persistent = False):
 	
 	RETRY_TIMES = 3;
 	conn = None;
 	for i in range(RETRY_TIMES):
 		try:
-			conn = pymysql.connect(host = host, user = user, password = password, db = db, port = port, charset = charset, connect_timeout = mysql_timeout);
+		
+			if Persistent:
+				PooL = PersistentDB(
+					creator = pymysql, 
+					maxusage = None,
+					setsession = [],
+					ping = 2,
+					closeable = False,
+					threadlocal = None,
+					host = host,
+					port = port,
+					user = user,
+					password = password,
+					database = db,
+					charset = charset
+				);
+				conn = PooL.connection();
+			else:
+				conn = pymysql.connect(
+				host = host,
+				user = user,
+				password = password,
+				db = db, 
+				port = port, 
+				charset = charset, 
+				connect_timeout = mysql_timeout
+				);
+			#endif
+			
 			break;
 		except Exception as e:
 			#log("Mysql Connect Error: %s" % e);
@@ -481,6 +511,7 @@ def connect():
 	
 	return conn;
 #enddef
+
 
 
 def close(conn):
@@ -505,7 +536,7 @@ def insert(conn, sql):
 		cur = conn.cursor();
 		cur.execute(sql);
 		
-		if type(conn) is dbutils.steady_db.SteadyDBConnection:
+		if type(conn) is SteadyDBConnection:
 			id = 1;
 		else:
 			id = int(conn.insert_id());
