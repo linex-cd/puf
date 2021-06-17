@@ -16,22 +16,23 @@ def connect(Persistent = False):
 	for i in range(RETRY_TIMES):
 		try:
 		
-			if Persistent and PersistentPool is None:
-				
-				PersistentPool = PersistentDB(
-					creator = pymysql, 
-					maxusage = None,
-					setsession = [],
-					ping = 2,
-					closeable = False,
-					threadlocal = None,
-					host = host,
-					port = port,
-					user = user,
-					password = password,
-					database = db,
-					charset = charset
-				);
+			if Persistent :
+				if PersistentPool is None:
+					PersistentPool = PersistentDB(
+						creator = pymysql, 
+						maxusage = None,
+						setsession = [],
+						ping = 2,
+						closeable = False,
+						threadlocal = None,
+						host = host,
+						port = port,
+						user = user,
+						password = password,
+						database = db,
+						charset = charset
+					);
+				#endif
 				conn = PersistentPool.connection();
 			else:
 				conn = pymysql.connect(
@@ -57,6 +58,7 @@ def connect(Persistent = False):
 	
 	return conn;
 #enddef
+
 
 def close(conn):
 	try:
