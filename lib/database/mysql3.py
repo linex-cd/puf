@@ -7,16 +7,18 @@ import pymysql;
 from dbutils.persistent_db import PersistentDB;
 from dbutils.steady_db import SteadyDBConnection;
 
+PersistentPool = None
 
 def connect(Persistent = False):
-	
+	global PersistentPool;
 	RETRY_TIMES = 3;
 	conn = None;
 	for i in range(RETRY_TIMES):
 		try:
 		
-			if Persistent:
-				PooL = PersistentDB(
+			if Persistent and PersistentPool is None:
+				
+				PersistentPool = PersistentDB(
 					creator = pymysql, 
 					maxusage = None,
 					setsession = [],
@@ -30,7 +32,7 @@ def connect(Persistent = False):
 					database = db,
 					charset = charset
 				);
-				conn = PooL.connection();
+				conn = PersistentPool.connection();
 			else:
 				conn = pymysql.connect(
 				host = host,
@@ -55,7 +57,6 @@ def connect(Persistent = False):
 	
 	return conn;
 #enddef
-
 
 def close(conn):
 	try:
