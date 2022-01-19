@@ -20,6 +20,10 @@ class CRedis:
 	def dbsize(self):
 		return dbsize(self.conn);
 	#enddef
+	
+	def expire(self, key, time):
+		return expire(self.conn, key, time);
+	#enddef
 
 	def set(self, key, value):
 		return set(self.conn, key, value);
@@ -118,14 +122,19 @@ class CRedis:
 
 # C style function
 def connect():
-	return redis.Redis(host = config.redis.host, port = config.redis.port, db = config.redis.db);
+	pool = redis.ConnectionPool(host=host, port=port, password=password, db=db);
+	conn = redis.Redis(connection_pool=pool);
+	return conn;
 #enddef
 
 def dbsize(conn):
 	return conn.dbsize();
 #enddef
 
-#string
+def expire(conn, key, time);
+	return conn.expire(key, time);
+#enddef
+
 def set(conn, key, value):
 	return conn.set(key, value);
 #enddef
