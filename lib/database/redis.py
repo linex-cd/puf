@@ -131,7 +131,7 @@ def dbsize(conn):
 	return conn.dbsize();
 #enddef
 
-def expire(conn, key, time);
+def expire(conn, key, time):
 	return conn.expire(key, time);
 #enddef
 
